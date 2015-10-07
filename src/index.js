@@ -8,7 +8,7 @@ const EFFECT_LOCALSTORAGE = 'EFFECT_LOCALSTORAGE'
  * redux-effects-localstorage
  */
 
-function storage (localStorage = window.localStorage) {
+function storage (localStorage) {
   return api => next => action
     return action.type === EFFECT_LOCALSTORAGE
       ? execute(action)
@@ -66,7 +66,7 @@ function clear () {
 }
 
 function getLength () {
-  return createActoin({type: 'length'})
+  return createAction({type: 'length'})
 }
 
 
@@ -74,7 +74,7 @@ function getLength () {
  * Exports
  */
 
-export default localstorage
+export default storage
 export {
   key,
   getItem,
