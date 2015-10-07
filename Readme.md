@@ -14,9 +14,9 @@ Redux effects driver for localStorage
 Simple [redux-effects](https://github.com/redux-effects/redux-effects) driver for [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).  Add it to your redux middleware stack like this:
 
 ```javascript
-import localStorageDriver from 'redux-effects-localstorage'
+import localStorage from 'redux-effects-localstorage'
 
-applyMiddleware(localStorageDriver(window.localStorage))(store)
+applyMiddleware(localStorage(window.localStorage))(store)
 ```
 
 And then dispatch it actions, like this:
@@ -32,7 +32,15 @@ store.dispatch({
 })
 ```
 
-Or, if you don't feel like writing all that out, use an action creator, like [declarative-localstorage](https://github.com/redux-effects/declarative-localstorage).
+Or, use the action creators that come bundled with it:
+
+```javascript
+import localStorage from 'redux-effects-localStorage'
+
+store.dispatch(localStorage.set('todos.0', 'Clean the kitchen'))
+```
+
+The API of the action creators is identical to that of the native localStorage object, with the sole exception that the property `length` has been changed to the function `getLength`.
 
 ## License
 

@@ -34,9 +34,52 @@ function storage (localStorage = window.localStorage) {
   }
 }
 
+/**
+ * Action creator
+ */
+
+function createAction (payload) {
+  return {
+    type: EFFECT_LOCALSTORAGE,
+    payload
+  }
+}
+
+function key (n) {
+  return createAction({type: 'key', n})
+}
+
+function getItem (key) {
+  return createAction({type: 'getItem', key})
+}
+
+function setItem (key, value) {
+  return createAction({type: 'setItem', key, value})
+}
+
+function removeItem (key) {
+  return createAction({type: 'removeItem', key})
+}
+
+function clear () {
+  return createAction({type: 'clear'})
+}
+
+function getLength () {
+  return createActoin({type: 'length'})
+}
+
 
 /**
  * Exports
  */
 
 export default localstorage
+export {
+  key,
+  getItem,
+  setItem,
+  removeItem,
+  clear,
+  getLength
+}
