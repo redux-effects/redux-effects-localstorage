@@ -11,7 +11,7 @@ const EFFECT_LOCALSTORAGE = 'EFFECT_LOCALSTORAGE'
 function storage (localStorage) {
   return api => next => action =>
     action.type === EFFECT_LOCALSTORAGE
-      ? execute(action)
+      ? execute(action.payload)
       : next(action)
 
   function execute ({type, key, value, n}) {
@@ -68,7 +68,6 @@ function clear () {
 function getLength () {
   return createAction({type: 'length'})
 }
-
 
 /**
  * Exports
