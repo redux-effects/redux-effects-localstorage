@@ -9,7 +9,7 @@ const EFFECT_LOCALSTORAGE = 'EFFECT_LOCALSTORAGE'
  */
 
 function storage (localStorage) {
-  return api => next => action
+  return api => next => action =>
     action.type === EFFECT_LOCALSTORAGE
       ? execute(action)
       : next(action)
