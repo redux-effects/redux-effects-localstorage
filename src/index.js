@@ -2,83 +2,103 @@
  * Action type
  */
 
-const EFFECT_LOCALSTORAGE = 'EFFECT_LOCALSTORAGE'
+const EFFECT_STORAGE = 'EFFECT_STORAGE';
+
+const STORAGE_TYPE = {
+  local: 'LOCAL',
+  session: 'SESSION',
+};
 
 /**
- * redux-effects-localstorage
+ * redux-storage
  */
 
-function storage (localStorage) {
-  return api => next => action =>
-    action.type === EFFECT_LOCALSTORAGE
+function storage() {
+  return dispatch => next => action =>
+    action.type === EFFECT_STORAGE
       ? execute(action.payload)
-      : next(action)
+      : next(action);
 
-  function execute ({type, key, value, n}) {
+  function execute({ type, storageType, key, value, n }) {
+    const store = storageType === STORAGE_TYPE.local ? window.localStorage : window.sessionStorage;
     switch (type) {
       case 'key':
-        return Promise.resolve(localStorage.key(n))
+        return Promise.resolve(store.key(n));
       case 'getItem':
-        return Promise.resolve(localStorage.getItem(key))
+        return Promise.resolve(store.getItem(key).then(v => parseValue(v)));
       case 'setItem':
-        return Promise.resolve(localStorage.setItem(key, value))
+        return Promise.resolve(store.setItem(key, JSON.stringify(value)));
       case 'removeItem':
-        return Promise.resolve(localStorage.removeItem(key, value))
+        return Promise.resolve(store.removeItem(key, value));
       case 'clear':
-        return Promise.resolve(localStorage.clear())
+        return Promise.resolve(store.clear());
       case 'length':
-        return Promise.resolve(localStorage.length)
+        return Promise.resolve(store.length);
       default:
-        throw new Error('redux-effects-localstorage unknown localStorage action type')
+        throw new Error('redux-storage unknown storage action type');
     }
   }
+}
+
+function parseValue(value) {
+  try {
+    const v = JSON.parse(value);
+    if (v && typeof v === 'object' && v !== null) {
+      return v;
+    }
+  } catch (err) {
+    return value;
+  }
+
+  return value; // just for consistency
 }
 
 /**
  * Action creator
  */
 
-function createAction (payload) {
+function createAction(payload) {
   return {
-    type: EFFECT_LOCALSTORAGE,
-    payload
-  }
+    type: EFFECT_STORAGE,
+    payload,
+  };
 }
 
-function key (n) {
-  return createAction({type: 'key', n})
+function key(n, storageType = STORAGE_TYPE.local) {
+  return createAction({ type: 'key', storageType, n });
 }
 
-function getItem (key) {
-  return createAction({type: 'getItem', key})
+function getItem(key, storageType = STORAGE_TYPE.local) {
+  return createAction({ type: 'getItem', storageType, key });
 }
 
-function setItem (key, value) {
-  return createAction({type: 'setItem', key, value})
+function setItem(key, value, storageType = STORAGE_TYPE.local) {
+  return createAction({ type: 'setItem', storageType, key, value });
 }
 
-function removeItem (key) {
-  return createAction({type: 'removeItem', key})
+function removeItem(key, storageType = STORAGE_TYPE.local) {
+  return createAction({ type: 'removeItem', storageType, key });
 }
 
-function clear () {
-  return createAction({type: 'clear'})
+function clear(storageType = STORAGE_TYPE.local) {
+  return createAction({ type: 'clear', storageType });
 }
 
-function getLength () {
-  return createAction({type: 'length'})
+function getLength(storageType = STORAGE_TYPE.local) {
+  return createAction({ type: 'length', storageType });
 }
 
 /**
  * Exports
  */
 
-export default storage
+export default createStorage;
 export {
   key,
   getItem,
   setItem,
   removeItem,
   clear,
-  getLength
-}
+  getLength,
+  STORAGE_TYPE,
+};
