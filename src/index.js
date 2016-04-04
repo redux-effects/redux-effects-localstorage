@@ -13,7 +13,7 @@ const STORAGE_TYPE = {
  * redux-storage
  */
 
-function storage() {
+function createStorage() {
   return dispatch => next => action =>
     action.type === EFFECT_STORAGE
       ? execute(action.payload)
@@ -25,7 +25,7 @@ function storage() {
       case 'key':
         return Promise.resolve(store.key(n));
       case 'getItem':
-        return Promise.resolve(store.getItem(key).then(v => parseValue(v)));
+        return Promise.resolve(store.getItem(key)).then(v => parseValue(v));
       case 'setItem':
         return Promise.resolve(store.setItem(key, JSON.stringify(value)));
       case 'removeItem':
