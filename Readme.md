@@ -42,6 +42,10 @@ store.dispatch(localStorage.set('todos.0', 'Clean the kitchen'))
 
 The API of the action creators is identical to that of the native localStorage object, with the sole exception that the property `length` has been changed to the function `getLength`.
 
+## Use with sessionStorage
+
+Each of the action creators takes another parameter, `STORAGE_TYPE`. You can access this from `STORAGE_TYPE` exported by this module. Values are `local` (the default) and `session`, which you can use if you want the actions to be applied to session storage rather than local storage.
+
 ## License
 
 The MIT License
