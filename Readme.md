@@ -25,7 +25,7 @@ And then dispatch it actions, like this:
 store.dispatch({
   type: 'EFFECT_LOCALSTORAGE',
   payload: {
-    type: 'set',
+    type: 'setItem',
     key: 'todos.0',
     value: 'Clean the kitchen'
   }
