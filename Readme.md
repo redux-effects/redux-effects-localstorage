@@ -37,7 +37,7 @@ Or, use the action creators that come bundled with it:
 ```javascript
 import localStorage from 'redux-effects-localStorage'
 
-store.dispatch(localStorage.set('todos.0', 'Clean the kitchen'))
+store.dispatch(localStorage.setItem('todos.0', 'Clean the kitchen'))
 ```
 
 The API of the action creators is identical to that of the native localStorage object, with the sole exception that the property `length` has been changed to the function `getLength`.
