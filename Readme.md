@@ -42,6 +42,37 @@ store.dispatch(localStorage.setItem('todos.0', 'Clean the kitchen'))
 
 The API of the action creators is identical to that of the native localStorage object, with the sole exception that the property `length` has been changed to the function `getLength`.
 
+## Example - Auth token getter/setter
+
+Getting/setting an auth token:
+
+```javascript
+function authToken (newToken) {
+  return arguments.length > 0 
+    ? localStorage.setItem('authToken', newToken)
+    : localStorage.getItem('authToken')
+}
+
+function setUserToken (token) {
+  return {type: 'SET_USER_TOKEN', payload: token}
+}
+
+function reducer (state, action) {
+  if (action.type === 'SET_USER_TOKEN') {
+    return {
+      ...state,
+      authToken: action.payload
+    }
+  }
+}
+
+function checkUserStatus () {
+  store
+   .dispatch(authToken())
+   .then(token => store.dispatch(setUserToken(token))
+}
+```
+
 ## Use with sessionStorage
 
 Each of the action creators takes another parameter, `STORAGE_TYPE`. You can access this from `STORAGE_TYPE` exported by this module. Values are `local` (the default) and `session`, which you can use if you want the actions to be applied to session storage rather than local storage.
