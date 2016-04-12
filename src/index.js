@@ -42,10 +42,7 @@ function createStorage() {
 
 function parseValue(value) {
   try {
-    const v = JSON.parse(value);
-    if (v && typeof v === 'object' && v !== null) {
-      return v;
-    }
+    return JSON.parse(value);
   } catch (err) {
     return value;
   }
