@@ -98,4 +98,5 @@ export {
   clear,
   getLength,
   STORAGE_TYPE,
+  EFFECT_STORAGE,
 };
